@@ -1,0 +1,23 @@
+{
+  "name": "termai",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "hon": "tsc && node dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^26.2.0",
+    "@types/readline-sync": "^1.4.8",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "@openrouter/sdk": "^1.2.18",
+    "dotenv": "^17.4.2",
+    "readline-sync": "^1.4.10"
+  }
+}
