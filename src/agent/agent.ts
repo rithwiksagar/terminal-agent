@@ -4,6 +4,7 @@ import { messages } from "./state.js";
 
 export async function agentloop(initialMessage: any[]) {
     
+  let MAX_STEPS = 15;
 
   while (true) {
 
@@ -16,9 +17,10 @@ export async function agentloop(initialMessage: any[]) {
         role: "assistant",
         content: JSON.stringify(llmResponse.content),
       });
-      if (llmResponse.type == "action") {
+      if (llmResponse.type == "action" && MAX_STEPS > 0) {
         const observation = await executecommand(llmResponse.args.command);
         messages.push({ role: "assistant", content: observation });
+        MAX_STEPS -= 1;
       } else {
         return llmResponse.content;
       }
