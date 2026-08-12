@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Box, Text, useInput } from "ink";
+import { TextInput } from "@inkjs/ui";
 
 export function Header() {
   const [input, setInput] = useState("");
 
+  const handleSubmit = (value: string) => {
+    console.log("Submitted:", value);
+
+
+    setInput("");
+  };
+
   useInput((char, key) => {
     if (key.return) {
-      console.log(input);
       return;
     }
 
@@ -18,15 +25,6 @@ export function Header() {
     setInput(input + char);
   });
 
-  const [position, setPosition] = useState(0);
-
-useEffect(() => {
-  const timer = setInterval(() => {
-    setPosition(previous => (previous + 1) % input.length);
-  }, 100);
-
-  return () => clearInterval(timer);
-}, []);
   return (
     <Box
       flexDirection="column"
@@ -57,12 +55,12 @@ useEffect(() => {
 
         <Box marginTop={1}>
           <Text bold>Environment </Text>
-          <Text>Windows · PowerShell</Text>
+          <Text color="gray">Windows · PowerShell</Text>
         </Box>
 
         <Box>
           <Text bold>Model </Text>
-          <Text>OpenRouter</Text>
+          <Text color="gray">OpenRouter</Text>
         </Box>
       </Box>
 
@@ -81,8 +79,20 @@ useEffect(() => {
         <Text dimColor>/exit Exit Hon</Text>
       </Box>
 
-      <Box marginTop={1} padding={1} borderColor="whiteBright" borderStyle="round">
-        <Text color="whiteBright">{input}</Text>
+      <Box
+        marginTop={1}
+        borderColor="whiteBright"
+        borderStyle="round"
+        height={3}
+        paddingLeft={1}
+        width="100%"
+        alignItems="center"
+      >
+        <TextInput
+          onChange={setInput}
+          onSubmit={handleSubmit}
+          placeholder="Enter / to start"
+        />
       </Box>
     </Box>
   );
