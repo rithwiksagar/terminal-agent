@@ -1,4 +1,4 @@
-import { runtime } from "./coding-cli/runtime.js";
+import { runtime } from "./cliruntime/runtime.js";
 
 
 runtime();
