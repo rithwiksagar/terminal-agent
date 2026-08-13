@@ -19,7 +19,7 @@ export async function llmcall(messages: ChatMessages[] | ChatToolMessage[]) {
         },
       },
     });
-
+  console.log(response)
   return response
 }
 

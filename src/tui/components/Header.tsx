@@ -6,25 +6,13 @@ import { runtime } from "../../cliruntime/runtime.js";
 export function Header() {
   const [input, setInput] = useState("");
   const [response, setResponse] = useState<null | string>();
+
   async function handleSubmit(value: string) {
-    setInput(input);
-    const response = await runtime(input);
+    setInput(value);
+    const response = await runtime(value);
     setResponse(response);
     setInput("");
   }
-
-  useInput((char, key) => {
-    if (key.return) {
-      return;
-    }
-
-    if (key.backspace) {
-      setInput(input.slice(0, -1));
-      return;
-    }
-
-    setInput(input + char);
-  });
 
   return (
     <Box
@@ -96,6 +84,7 @@ export function Header() {
         alignItems="center"
       >
         <TextInput
+          defaultValue={input}
           onChange={setInput}
           onSubmit={handleSubmit}
           placeholder="Enter / to start"
