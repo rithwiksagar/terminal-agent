@@ -3,20 +3,16 @@ import { agentloop } from "../agent/agent.js";
 import { messages } from "../agent/state.js";
 import { runtimecontext } from "./runtimecontext.js";
 
+export async function runtime(initialMessage: string) {
+  while (true) {
+    const runtimedetails = runtimecontext();
+    messages.push({
+      role: "developer",
+      content: JSON.stringify(runtimedetails),
+    });
+    messages.push({role: "user", content: initialMessage});
+    const response = await agentloop(messages);
 
-
-
-
-
-export async function runtime(){
-
-  while(true){
-  const runtimedetails = runtimecontext();
-  messages.push({role: "developer", content: JSON.stringify(runtimedetails)})
-  const userInput = readlineSync.question(">>>>>>>> ");
-  messages.push({ role: "user", content: userInput });
-  const response = await agentloop(messages);
-
-  console.log(response)
+    return response
   }
 }

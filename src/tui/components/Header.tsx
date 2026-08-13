@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Box, Text, useInput } from "ink";
 import { TextInput } from "@inkjs/ui";
+import { runtime } from "../../cliruntime/runtime.js";
 
 export function Header() {
   const [input, setInput] = useState("");
-
-  const handleSubmit = (value: string) => {
-    console.log("Submitted:", value);
-
-
+  const [response, setResponse] = useState<null | string>();
+  async function handleSubmit(value: string) {
+    setInput(input);
+    const response = await runtime(input);
+    setResponse(response);
     setInput("");
-  };
+  }
 
   useInput((char, key) => {
     if (key.return) {
@@ -64,14 +65,20 @@ export function Header() {
         </Box>
       </Box>
 
-      <Box flexDirection="column" marginBottom={1}>
-        <Text bold>Get started</Text>
-
+      {response ? (
         <Box marginTop={1}>
-          <Text color="cyan">› </Text>
-          <Text>Ask Hon to inspect, build, debug, or modify your code.</Text>
+          <Text color="cyan">› {response}</Text>
         </Box>
-      </Box>
+      ) : (
+        <Box flexDirection="column" marginBottom={1}>
+          <Text bold>Get started</Text>
+
+          <Box marginTop={1}>
+            <Text color="cyan">› </Text>
+            <Text>Ask Hon to inspect, build, debug, or modify your code.</Text>
+          </Box>
+        </Box>
+      )}
 
       <Box flexDirection="column">
         <Text dimColor>/help Commands</Text>
