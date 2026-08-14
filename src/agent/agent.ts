@@ -3,12 +3,10 @@ import { llmcall } from "../llm/client.js";
 import { messages } from "./state.js";
 
 export async function agentloop(initialMessage: any[]) {
-    
   let MAX_STEPS = 15;
 
   while (true) {
-
-    const response = await llmcall(initialMessage)
+    const response = await llmcall(initialMessage);
     if ("choices" in response) {
       const llmResponse = JSON.parse(
         response.choices[0]?.message.content as any,
@@ -27,4 +25,3 @@ export async function agentloop(initialMessage: any[]) {
     }
   }
 }
-

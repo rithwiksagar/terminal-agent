@@ -3,14 +3,21 @@ import { Box, Text, useInput } from "ink";
 import { TextInput } from "@inkjs/ui";
 import { runtime } from "../../cliruntime/runtime.js";
 
+type chatMessages = {
+  role: "agent" | "user";
+  content: string;
+};
 export function Header() {
   const [inputKey, setInputKey] = useState(0);
   const [response, setResponse] = useState<null | string>();
+  const chatMessages: chatMessages[] = [];
 
   async function handleSubmit(value: string) {
+    chatMessages.push({ role: "user", content: value });
     setInputKey((i) => i + 1);
     const response = await runtime(value);
     setResponse(response);
+    chatMessages.push({ role: "agent", content: response });
   }
 
   return (
@@ -53,7 +60,22 @@ export function Header() {
       </Box>
 
       {response ? (
-        <Text>{response}</Text>
+        <Box flexDirection="column">
+          {chatMessages.map((message, index) => (
+            <Box
+              key={index}
+              borderStyle="round"
+              borderColor="gray"
+              paddingX={1}
+              marginBottom={1}
+            >
+              <Text>
+                {message.role === "agent" ? "> " : "  "}
+                {message.content}
+              </Text>
+            </Box>
+          ))}
+        </Box>
       ) : (
         <Box flexDirection="column" marginBottom={1}>
           <Text bold>Get started</Text>
