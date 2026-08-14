@@ -4,14 +4,13 @@ import { TextInput } from "@inkjs/ui";
 import { runtime } from "../../cliruntime/runtime.js";
 
 export function Header() {
-  const [input, setInput] = useState("");
+  const [inputKey, setInputKey] = useState(0);
   const [response, setResponse] = useState<null | string>();
 
   async function handleSubmit(value: string) {
-    setInput(value);
+    setInputKey((i) => i + 1);
     const response = await runtime(value);
     setResponse(response);
-    setInput("");
   }
 
   return (
@@ -54,9 +53,7 @@ export function Header() {
       </Box>
 
       {response ? (
-        <Box marginTop={1}>
-          <Text color="cyan">› {response}</Text>
-        </Box>
+        <Text>{response}</Text>
       ) : (
         <Box flexDirection="column" marginBottom={1}>
           <Text bold>Get started</Text>
@@ -84,10 +81,9 @@ export function Header() {
         alignItems="center"
       >
         <TextInput
-          defaultValue={input}
-          onChange={setInput}
+          key={inputKey}
           onSubmit={handleSubmit}
-          placeholder="Enter / to start"
+          placeholder="Type / for commands"
         />
       </Box>
     </Box>
