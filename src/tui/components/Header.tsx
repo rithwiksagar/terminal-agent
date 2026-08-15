@@ -13,6 +13,8 @@ export function Header() {
   const [chatMessages, setChatMessages] = useState<chatMessages[]>([]);
 
   async function handleSubmit(value: string) {
+    if(value === "") return;
+    console.log(value);
     setChatMessages((messages) => [
       ...messages,
       { role: "user", content: value },
