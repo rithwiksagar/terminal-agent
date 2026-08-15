@@ -1,11 +1,10 @@
-import readlineSync from "readline-sync";
 import { agentloop } from "../agent/agent.js";
 import { messages } from "../agent/state.js";
-import { runtimecontext } from "./runtimecontext.js";
+import { systeminfo } from "../utils/systeminfo.js";
 
 export async function runtime(initialMessage: string) {
   while (true) {
-    const runtimedetails = runtimecontext();
+    const runtimedetails = systeminfo();
     messages.push({
       role: "developer",
       content: JSON.stringify(runtimedetails),

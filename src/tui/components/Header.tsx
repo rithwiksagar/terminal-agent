@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { Box, Text, useInput } from "ink";
+import { useState } from "react";
+import { Box, Text } from "ink";
 import { TextInput } from "@inkjs/ui";
 import { runtime } from "../../cliruntime/runtime.js";
+import type { chatMessages } from "../types/types.js";
+import { systeminfo } from "../../utils/systeminfo.js";
 
-type chatMessages = {
-  role: "agent" | "user";
-  content: string;
-};
 export function Header() {
-  const [inputKey, setInputKey] = useState(0);
-  const [isChatVisible, setIsChatVisible] = useState(false);
+  const [inputKey, setInputKey] = useState<number>(0);
+  const [isChatVisible, setIsChatVisible] = useState<boolean>(false);
   const [chatMessages, setChatMessages] = useState<chatMessages[]>([]);
+  const environment = systeminfo();
 
   async function handleSubmit(value: string) {
-    if(value === "") return;
-    console.log(value);
+    if (value === "") return;
+
     setChatMessages((messages) => [
       ...messages,
       { role: "user", content: value },
@@ -57,16 +56,11 @@ export function Header() {
         marginBottom={1}
       >
         <Text bold>Workspace</Text>
-        <Text dimColor>C:\Users\rithw\WorkingVolume\projects\TermAI</Text>
+        <Text dimColor>{environment.cwd}</Text>
 
         <Box marginTop={1}>
           <Text bold>Environment </Text>
-          <Text color="gray">Windows · PowerShell</Text>
-        </Box>
-
-        <Box>
-          <Text bold>Model </Text>
-          <Text color="gray">OpenRouter</Text>
+          <Text color="gray">{environment.OS}</Text>
         </Box>
       </Box>
 
@@ -75,7 +69,8 @@ export function Header() {
           {chatMessages.map((message, index) => (
             <Box key={index} marginBottom={1}>
               <Text color={message.role === "agent" ? "cyan" : "whiteBright"}>
-                {"> "}{message.content}
+                {"> "}
+                {message.content}
               </Text>
             </Box>
           ))}
