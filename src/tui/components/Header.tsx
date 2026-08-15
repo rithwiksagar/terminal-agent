@@ -9,15 +9,24 @@ type chatMessages = {
 };
 export function Header() {
   const [inputKey, setInputKey] = useState(0);
-  const [response, setResponse] = useState<null | string>();
-  const chatMessages: chatMessages[] = [];
+  const [isChatVisible, setIsChatVisible] = useState(false);
+  const [chatMessages, setChatMessages] = useState<chatMessages[]>([]);
 
   async function handleSubmit(value: string) {
-    chatMessages.push({ role: "user", content: value });
+    setChatMessages((messages) => [
+      ...messages,
+      { role: "user", content: value },
+    ]);
+
     setInputKey((i) => i + 1);
+    setIsChatVisible(true);
+
     const response = await runtime(value);
-    setResponse(response);
-    chatMessages.push({ role: "agent", content: response });
+
+    setChatMessages((messages) => [
+      ...messages,
+      { role: "agent", content: response },
+    ]);
   }
 
   return (
@@ -59,19 +68,12 @@ export function Header() {
         </Box>
       </Box>
 
-      {response ? (
+      {isChatVisible ? (
         <Box flexDirection="column">
           {chatMessages.map((message, index) => (
-            <Box
-              key={index}
-              borderStyle="round"
-              borderColor="gray"
-              paddingX={1}
-              marginBottom={1}
-            >
-              <Text>
-                {message.role === "agent" ? "> " : "  "}
-                {message.content}
+            <Box key={index} marginBottom={1}>
+              <Text color={message.role === "agent" ? "cyan" : "whiteBright"}>
+                {"> "}{message.content}
               </Text>
             </Box>
           ))}
