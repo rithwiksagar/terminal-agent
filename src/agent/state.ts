@@ -1,3 +1,4 @@
+import type { Message } from "../types/types.js";
 
 
 const SYSTEM_PROMPT = `You are Hon, an AI coding agent that operates inside a user's terminal environment.
@@ -458,7 +459,7 @@ Always return exactly one valid JSON object.`
 
 
 
-export const messages: any = [
+export const messages: Message[] = [
   {
     role: "system",
     content: SYSTEM_PROMPT,

@@ -1,12 +1,7 @@
 import { exec as execCallback } from "node:child_process";
 import { promisify } from "node:util";
 
-
-
-
-
-
-export async function executecommand(command: string) {
+export async function executecommand(command: string): Promise<string> {
   if (command == undefined)
     return "executeCommand requires a non-empty string command";
 
@@ -18,6 +13,6 @@ export async function executecommand(command: string) {
 
     return stdout;
   } catch (err) {
-    console.log(err);
+    return `Command execution failed: ${String(err)}`;
   }
 }

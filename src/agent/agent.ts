@@ -1,20 +1,24 @@
 import { executecommand } from "../cliruntime/tools/executecommand.js";
 import { llmcall } from "../llm/client.js";
+import type { Message } from "../types/types.js";
 import { messages } from "./state.js";
 
-export async function agentloop(initialMessage: any[]) {
+export async function agentloop(Messages: Message[]) {
   let MAX_STEPS = 15;
 
   while (true) {
-    const response = await llmcall(initialMessage);
+    const response = await llmcall(Messages);
+
     if ("choices" in response) {
       const llmResponse = JSON.parse(
         response.choices[0]?.message.content as any,
       );
+
       messages.push({
         role: "assistant",
         content: JSON.stringify(llmResponse.content),
       });
+
       if (llmResponse.type == "action" && MAX_STEPS > 0) {
         const observation = await executecommand(llmResponse.args.command);
         messages.push({ role: "assistant", content: observation });

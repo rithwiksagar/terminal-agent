@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Box, Text } from "ink";
 import { TextInput } from "@inkjs/ui";
 import { runtime } from "../../cliruntime/runtime.js";
-import type { chatMessages } from "../types/types.js";
+import type { chatMessages } from "../../types/types.js";
 import { systeminfo } from "../../utils/systeminfo.js";
 
 export function Header() {
