@@ -69,7 +69,7 @@ export function Header() {
       </Box>
 
       {isChatVisible ? (
-        <Box flexDirection="column" margin={1}>
+        <Box flexDirection="column">
           {chatMessages.map((message, index) => (
             <Box key={index} marginBottom={1}>
                 <Text color={message.role === "agent" ? "cyan" : "whiteBright"}>
@@ -78,7 +78,7 @@ export function Header() {
                 </Text>
             </Box>
           ))}
-          {isLoading && <Loader />}
+          <Box marginBottom={1}>{isLoading && <Loader />}</Box>
         </Box>
       ) : (
         <Box flexDirection="column" marginBottom={1}>

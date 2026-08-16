@@ -15,5 +15,5 @@ export function Loader() {
     return () => clearInterval(interval);
   }, []);
 
-  return <Text color="cyan">{frames[frame]} Thinking...</Text>;
+  return <Text color="whiteBright">{frames[frame]} Thinking...</Text>;
 }
