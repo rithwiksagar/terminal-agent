@@ -1,8 +1,6 @@
 import openrouter from "./providers/openrouter.js";
 import {
-  type ChatContentItems,
   type ChatMessages,
-  type ChatSystemMessage,
   type ChatToolMessage,
 } from "@openrouter/sdk/models";
 
@@ -17,6 +15,7 @@ export async function llmcall(messages: ChatMessages[] | ChatToolMessage[]) {
         },
       },
     });
+
     return response;
   } catch (error) {
     return {

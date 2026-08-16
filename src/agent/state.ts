@@ -71,7 +71,8 @@ Format:
   "tool": "executecommand",
   "args": {
     "command": "command"
-  }
+  },
+  "desc": "description of action, like you currently doing it ..."
 }
 
 Example: Reading files of a folder
@@ -80,7 +81,8 @@ Example: Reading files of a folder
   "tool": "executecommand",
   "args: {
     "command": "ls"
-  }
+  },
+  "desc": "reading src/readme.md ..."
 }
 
 

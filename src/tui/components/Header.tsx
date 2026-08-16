@@ -1,14 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Text } from "ink";
-import { TextInput } from "@inkjs/ui";
+import { Spinner, TextInput } from "@inkjs/ui";
 import { runtime } from "../../cliruntime/runtime.js";
 import type { chatMessages } from "../../types/types.js";
 import { systeminfo } from "../../utils/systeminfo.js";
+import cliSpinners from "cli-spinners";
+import { Logo } from "./Logo.js";
+import { Loader } from "./Loader.js";
 
 export function Header() {
   const [inputKey, setInputKey] = useState<number>(0);
   const [isChatVisible, setIsChatVisible] = useState<boolean>(false);
   const [chatMessages, setChatMessages] = useState<chatMessages[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const environment = systeminfo();
 
   async function handleSubmit(value: string) {
@@ -21,13 +25,13 @@ export function Header() {
 
     setInputKey((i) => i + 1);
     setIsChatVisible(true);
-
+    setIsLoading(true);
     const response = await runtime(value);
-
     setChatMessages((messages) => [
       ...messages,
       { role: "agent", content: response },
     ]);
+    setIsLoading(false);
   }
 
   return (
@@ -65,15 +69,16 @@ export function Header() {
       </Box>
 
       {isChatVisible ? (
-        <Box flexDirection="column">
+        <Box flexDirection="column" margin={1}>
           {chatMessages.map((message, index) => (
             <Box key={index} marginBottom={1}>
-              <Text color={message.role === "agent" ? "cyan" : "whiteBright"}>
-                {"> "}
-                {message.content}
-              </Text>
+                <Text color={message.role === "agent" ? "cyan" : "whiteBright"}>
+                  {"> "}
+                  {message.content}
+                </Text>
             </Box>
           ))}
+          {isLoading && <Loader />}
         </Box>
       ) : (
         <Box flexDirection="column" marginBottom={1}>
@@ -111,11 +116,3 @@ export function Header() {
   );
 }
 
-function Logo() {
-  return `██╗  ██╗ ██████╗ ███╗   ██╗
-██║  ██║██╔═══██╗████╗  ██║
-███████║██║   ██║██╔██╗ ██║
-██╔══██║██║   ██║██║╚██╗██║
-██║  ██║╚██████╔╝██║ ╚████║
-╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝`;
-}
